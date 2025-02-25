@@ -22,7 +22,7 @@ To reproduce experiments from the paper, run:
 ```bash
 python experiment.py --dataset=1k --num-experiments=10 --output-directory=out --flat-vec --stats-flat-vec --pca-flat-vec --stats-concat --dense
 ```
-That there are 4 datasets available:
+Note that there are 4 datasets available:
 
 - 1k - 1000 images per class
 - 10k - 10000 images per class
