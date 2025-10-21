@@ -41,6 +41,27 @@ To reproduce the nsfw experiment from the paper, run:
 python nsfw-experiment.py
 ```
 
+### Ablation Experiment (New)
+
+To run the ablation experiment that identifies and removes the most predictive LoRA layers:
+
+```bash
+python ablation_experiment.py --dataset=1k --top-k=5 --num-runs=10 --output-dir=ablation-results
+```
+
+This experiment:
+- Identifies the top-k most predictive LoRA layers
+- Re-evaluates all representation methods with these layers removed
+- Tests 8 different representation methods including novel spectral, frequency domain, and information-theoretic features
+- Provides comprehensive analysis of layer importance and representation effectiveness
+
+For quick testing:
+```bash
+python ablation_experiment.py --dataset=1k --top-k=3 --quick
+```
+
+See [ABLATION_EXPERIMENT.md](ABLATION_EXPERIMENT.md) for detailed documentation.
+
 
 ### Dataset creation code
 
