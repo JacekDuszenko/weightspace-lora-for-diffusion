@@ -908,10 +908,10 @@ def evaluate_single_layer(
         torch.manual_seed(42 + run)
         np.random.seed(42 + run)
 
-        # Extract layer data
-        train_layer = torch.stack([sample[layer_name] for sample in train_data])
-        val_layer = torch.stack([sample[layer_name] for sample in val_data])
-        test_layer = torch.stack([sample[layer_name] for sample in test_data])
+        # Extract layer data (convert lists to tensors)
+        train_layer = torch.stack([torch.tensor(sample[layer_name], dtype=torch.float32) for sample in train_data])
+        val_layer = torch.stack([torch.tensor(sample[layer_name], dtype=torch.float32) for sample in val_data])
+        test_layer = torch.stack([torch.tensor(sample[layer_name], dtype=torch.float32) for sample in test_data])
 
         # Apply representation
         X_train = representation_fn(train_layer)
@@ -938,7 +938,7 @@ def evaluate_single_layer(
         optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
         criterion = nn.CrossEntropyLoss()
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, mode='max', factor=0.5, patience=10, verbose=False
+            optimizer, mode='max', factor=0.5, patience=10
         )
 
         # Training loop
@@ -1078,9 +1078,9 @@ def evaluate_with_ablation(
         test_features_list = []
 
         for layer_name in remaining_layers:
-            train_layer = torch.stack([sample[layer_name] for sample in train_data])
-            val_layer = torch.stack([sample[layer_name] for sample in val_data])
-            test_layer = torch.stack([sample[layer_name] for sample in test_data])
+            train_layer = torch.stack([torch.tensor(sample[layer_name], dtype=torch.float32) for sample in train_data])
+            val_layer = torch.stack([torch.tensor(sample[layer_name], dtype=torch.float32) for sample in val_data])
+            test_layer = torch.stack([torch.tensor(sample[layer_name], dtype=torch.float32) for sample in test_data])
 
             train_features_list.append(representation_fn(train_layer))
             val_features_list.append(representation_fn(val_layer))
@@ -1111,7 +1111,7 @@ def evaluate_with_ablation(
         optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
         criterion = nn.CrossEntropyLoss()
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, mode='max', factor=0.5, patience=10, verbose=False
+            optimizer, mode='max', factor=0.5, patience=10
         )
 
         # Training loop
